@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.conf import settings
-from twilio.rest import Client
+# from twilio.rest import Client
 
 
 
@@ -57,8 +57,10 @@ def careers(request):
         mobileno = request.POST['mobileno']
         totalexp = request.POST['totalexp']
         lastsalary = request.POST['lastsalary']
-        fileupload = request.POST['fileupload']
+        fileupload = request.FILES['fileupload']
         # profile_pic = request.POST['profile_pic']
+
+        print(fileupload,' ----- ',type(fileupload))
 
 
         careers=Carriers(name=name,address=address,date=date,email=email,mobileno=mobileno,totalexp=totalexp,lastsalary=lastsalary,fileupload=fileupload,)
@@ -75,14 +77,14 @@ def appointment(request):
     if request.method == 'POST':
         name=request.POST['name']
         mobileno=request.POST['mobileno']
-        account_sid = 'AC9e59c0f3c67ba050e8de9220fabef012'
-        auth_token = '8296009e858fd9c21ba0c5462a95b2d0'
-        client = Client(account_sid, auth_token)
-        message = client.messages.create(
-                      from_='+14242383634',
-                      body ='hello sandy',
-                      to ="+918356016968",
-                       )
+        # account_sid = 'AC9e59c0f3c67ba050e8de9220fabef012'
+        # auth_token = '8296009e858fd9c21ba0c5462a95b2d0'
+        # client = Client(account_sid, auth_token)
+        # message = client.messages.create(
+        #               from_='+14242383634',
+        #               body ='hello sandy',
+        #               to ="+918356016968",
+        #                )
         email=request.POST['email']
 
         city=request.POST['city']

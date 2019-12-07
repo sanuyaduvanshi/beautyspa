@@ -8,7 +8,7 @@
     <h3 class="text-center h3">CAREERS &nbsp<i class="fa fa-briefcase"></i></h3>
   </div>
   <hr class="servicehd1">
-<form action="{% url 'careers' %}" method="post">
+<form action="{% url 'careers' %}" method="post"  enctype="multipart/form-data" >
   {% csrf_token %}
   <input type="text" name="name" placeholder="Name" class="form-control"><br>
   <input type="text" name="address" placeholder="Address" class="form-control"><br>

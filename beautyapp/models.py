@@ -62,8 +62,8 @@ class Carriers(models.Model):
     mobileno = models.IntegerField()
     totalexp=models.CharField(max_length=100)
     lastsalary=models.IntegerField()
-    fileupload=models.FileField(upload_to='beautyapp/Resume')
-    # profile_pic=models.ImageField(upload_to='beautyapp/Images')
+    fileupload=models.FileField(upload_to='resume/pdfs/')
+    # profile_pic=models.ImageField(upload_to='resume/images/')
 
     def __str__(self):
         return self.name

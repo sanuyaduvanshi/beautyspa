@@ -25,10 +25,6 @@ urlpatterns = [
     path('memberplan',views.memberplan,name='memberplan'),
     path('eservice',views.eservice,name='eservice'),
 
-    
-
-
-
-
-
 ]
+
+

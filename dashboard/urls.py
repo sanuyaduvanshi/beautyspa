@@ -32,3 +32,5 @@ urlpatterns = [
     # path('edit/<int:city_id>',views.edit,name='edit')
 
 ]
+
+

@@ -63,7 +63,7 @@ class Carriers(models.Model):
     totalexp=models.CharField(max_length=100)
     lastsalary=models.IntegerField()
     fileupload=models.FileField(upload_to='resume/pdfs/')
-    # profile_pic=models.ImageField(upload_to='resume/images/')
+    profile_pic=models.ImageField(upload_to='Images/img/')
 
     def __str__(self):
         return self.name

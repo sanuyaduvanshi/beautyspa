@@ -58,12 +58,14 @@ def careers(request):
         totalexp = request.POST['totalexp']
         lastsalary = request.POST['lastsalary']
         fileupload = request.FILES['fileupload']
-        # profile_pic = request.POST['profile_pic']
+        profile_pic = request.FILES['pc']
 
         print(fileupload,' ----- ',type(fileupload))
+        print(profile_pic,' ----- ',type(profile_pic))
 
 
-        careers=Carriers(name=name,address=address,date=date,email=email,mobileno=mobileno,totalexp=totalexp,lastsalary=lastsalary,fileupload=fileupload,)
+
+        careers=Carriers(name=name,address=address,date=date,email=email,mobileno=mobileno,totalexp=totalexp,lastsalary=lastsalary,fileupload=fileupload,profile_pic=profile_pic)
         careers.save()
         messages.info(request,'  ')
         return redirect(home)

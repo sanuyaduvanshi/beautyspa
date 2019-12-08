@@ -9,8 +9,7 @@ from .models import Addstaff
 from .models import Guest
 from django.contrib.auth.decorators import login_required
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 
@@ -68,8 +67,21 @@ def gifts(request):
     return render(request,'dashboard/gifts.html',{'gifts':gifts})
 
 def appointment(request):
-    appointment = Appointment.objects.all()
-    return render(request,'dashboard/appointment.html',{'appointment':appointment} )
+    appointment = Appointment.objects.order_by('-date')
+
+    paginator = Paginator(appointment, 10)  # 10 appointments in each page
+    page = request.GET.get('page')
+    try:
+        appointment_list = paginator.page(page)
+    except PageNotAnInteger:
+            # If page is not an integer deliver the first page
+        appointment_list = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        appointment_list = paginator.page(paginator.num_pages)
+
+
+    return render(request,'dashboard/appointment.html',{'appointment':appointment_list,'page': page} )
 # def edit(request, id):
 #     city = Citys.objects.get(id=id)
 #     context = {'city': city}

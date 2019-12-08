@@ -80,11 +80,57 @@
 
       </th>
     </tr>
+
+    
+
+
+
+        <!--  pagination starts-->
+    
+    <!-- {% if appointment.has_other_pages %}
+    
+    <ul class="pagination">
+      {% if appointment.has_previous %}
+      <li><a href="?page={{ appointment.previous_page_number }}" >&laquo; PREV </a></li>
+      {% endif %}
+      {% if appointment.has_next %}
+      <li><a href="?page={{ appointment.next_page_number }}" > NEXT &raquo;</a></li>
+     {% endif %}
+    </ul>
+    </div>
+    {% endif %} -->
+    
+    <!-- pagination ends -->
+    
+
+      
+
   </tfoot>
+
+  
+
 </table>
+
+<nav aria-label="Page navigation example" style="float: right;">
+        <ul class="pagination">
+                {% if appointment.has_previous %}
+                <li><a href="?page={{ appointment.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+                {% endif %}
+                {% if appointment.has_next %}
+               
+                <li><a href="?page={{ appointment.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+            
+               {% endif %}
+        </ul>
+</nav>
+
+
 </div>
 
 
 
 
 {%endblock%}
+
+
+

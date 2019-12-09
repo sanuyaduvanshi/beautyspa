@@ -1,15 +1,20 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from beautyapp.models import Citys
 from beautyapp.models import Appointment
 from django.contrib import messages
 from beautyapp.models import Services
 from beautyapp.models import Gift
+from .models import Addprice
 from beautyapp.models import Carriers
 from .models import Addstaff
 from .models import Guest
+
 from django.contrib.auth.decorators import login_required
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
+from twilio.rest import Client
 
 
 
@@ -69,7 +74,7 @@ def gifts(request):
 def appointment(request):
     appointment = Appointment.objects.order_by('-date')
 
-    paginator = Paginator(appointment, 10)  # 10 appointments in each page
+    paginator = Paginator(appointment, 5)  # 10 appointments in each page
     page = request.GET.get('page')
     try:
         appointment_list = paginator.page(page)
@@ -87,25 +92,49 @@ def appointment(request):
 #     context = {'city': city}
 #     return render(request, 'crud/edit.html', context)
 
+def confirm_appointment(request,id):
+    appointment = Appointment.objects.get(id=id)
+    if request.method == 'POST':
+        comments = request.POST['comments']
+        mobileno = appointment.mobileno
+
+        account_sid = 'ACf72d08db3e903a8b1c7cef4abcefd1ed'
+        auth_token = 'a6373d036f80a7ccbfc32fd173883a2b'
+        client = Client(account_sid, auth_token)
+        message = client.messages.create(from_='+19386669137',body =comments,to ="+918356016968",)
+
+    return HttpResponse("Msg sent to the user")
+
 def update(request, id):
     city = Citys.objects.get(id=id)
     city.name = request.POST['name']
     city.save()
     return redirect(addcity)
 
+def clientupdate(request, id):
+    g  = Guest.objects.get(id=id)
+    # g.time_in = request.POST['time_in']
+    g.time_out= request.POST['time_out']
+    g.total_time=request.POST['total_time']
+    g.comments = request.POST['comments']
+    g.save()
+    return redirect(dashboard)
+
 def modify(request, id):
     service = Services.objects.get(id=id)
     service.name = request.POST['name']
+
     service.save()
     return redirect(addservice)
 
 
 def updates(request, id):
     staff = Addstaff.objects.get(id=id)
-    service = Services.objects.get(id=id)
     staff.name = request.POST['name']
     staff.mobileno = request.POST['mobileno']
-    service.name = request.POST['service']
+    s = request.POST['service']
+    service = Services.objects.get(id=s)
+
     service.save()
     staff.services = service
 
@@ -153,6 +182,19 @@ def addservice(request):
         'service':Services.objects.all()
         }
     return render(request,'dashboard/addservices.html',context_data)
+
+
+def price(request):
+    if request.method == 'POST':
+        price = request.POST['price']
+        p = Price(price=price)
+        p.save()
+        return redirect(price)
+    else:
+        context_data = {
+        'p':Addprice.objects.all()
+        }
+    return render(request,'dashboard/price.html',context_data)
 
 
 def addstaff(request):
@@ -204,3 +246,11 @@ def admin_login(request):
             return redirect(admin_login)
     else:
         return render(request,'dashboard/admin_login.html')
+
+
+
+def franch(request):
+    f=Carriers.objects.all()
+
+
+    return render(request,'dashboard/franch.html', {'f':f})

@@ -14,6 +14,19 @@ class Addstaff(models.Model):
     def __str__(self):
         return self.name
 
+class Addprice(models.Model):
+    price = models.IntegerField()
+
+    def __str__(self):
+        return self.price
+
+class Addduration(models.Model):
+    duration=models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.duration
+
+
 class Guest(models.Model):
     gname = models.CharField(max_length=50)
     mobile = models.CharField(max_length=100)

@@ -38,6 +38,8 @@
       <th class="text-center th-sm">Payment MOD</th>
       <th class="text-center th-sm">Comments</th>
       <th class="text-center th-sm">Action</th>
+      <th class="text-center th-sm">Action</th>
+
 
 
     </tr>
@@ -59,7 +61,8 @@
       <td class="text-center">{{g.payment}}</td>
       <td class="text-center">{{g.comments}}</td>
 
-      <td class="text-center"> <a class="btn btn-sm btn-danger"  href="guest/gdel/{{g.id}}">Delete</a></td>
+      <td> <a class="btn btn-sm btn-warning" onclick="edit_{{ g.id }}()" data-toggle="modal" data-target="#myModal">Edit</a>
+      </td><td>  <a class="btn btn-sm btn-danger"  href="guest/gdel/{{g.id}}">Delete</a></td>
 </tr>
       {% endfor %}
 
@@ -100,10 +103,114 @@
       </th>
       <th class="text-center th-sm">Comments</th>
       <th class="text-center th-sm">Action</th>
+      <th class="text-center th-sm">Action</th>
+
     </tr>
   </tfoot>
 </table>
 </div>
+<div class="container">
 
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"></button>
+          <h4 class="modal-title text-center">EDIT CLIENTS DETAIL</h4>
+        </div>
+        <div class="modal-body">
+          <form id="update_form" method="POST">
+              {% csrf_token %}
+              <!-- <div class="form-group">
+                  <label for="name" class="label">Time_In</label>
+                  <input id="timein" type="text" name="time_in"  class="form-control" required="required"/>
+              </div> -->
+
+              <div class="form-group">
+                  <label for="name" class="label">Time_Out</label>
+                  <input id="timeout" type="text" name="time_out"  class="form-control" required="required"/>
+              </div>
+
+              <div class="form-group">
+                  <label for="name" class="label">Total_Time</label>
+                  <input id="totaltime" type="text" name="total_time"  class="form-control" required="required"/>
+              </div>
+
+              <div id="comments" class="form-group" style="display: none;">
+                      <label for="comments" class="labels">Comments(Why Delay)</label>
+                      <textarea name="comments" class="form-control"  required="required"> </textarea>
+              </div>
+
+              <div class="form-group">
+                  <button type="submit" class="btn btn-sm btn-success">Update</button>
+              </div>
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<script>
+  {% for g in guests %}
+
+  function edit_{{g.id }}()
+  {
+    console.log("{{ g.id }}")
+    // $("#timein").val("{{ g.time_in }}")
+    $("#timeout").val("{{ g.time_out }}")
+    $("#totaltime").val("{{ g.total_time }}")
+    $("#comments").val("{{ g.commentS }}")
+    $("#update_form").attr("action","updateguest/{{ g.id}}")
+  }
+
+
+
+  {% endfor %}
+</script>
+
+<script>
+
+   function myFunction(x) {
+   let [h1,m1] = document.getElementById("timein").value.split(":")
+   let [h2,m2] = document.getElementById("timeout").value.split(":")
+   h = h2 - h1
+   m = (m2 - m1)+15
+
+   let duration =  $("#duration").val()
+   let tt = (60*h)+m
+
+
+   console.log(h+"--"+m)
+
+   console.log(eval(tt-duration))
+
+   if (eval(tt-duration) <= 0)
+   {
+       $("#comments").hide();
+       // console.log($("#mymodel2"))
+       // $('body').removeClass('modal-open');
+       // $('.modal-backdrop').remove();
+       // console.log("triggered");
+   }else
+   {
+       $("#comments").show();
+   }
+
+   document.getElementById(x).value = tt
+
+
+   }
+
+
+</script>
 
 {%endblock%}

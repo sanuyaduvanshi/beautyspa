@@ -20,7 +20,8 @@ class Citys(models.Model):
             return self.name
 
 class Services(models.Model):
-        name=models.CharField(max_length=50,default="leg")
+        name=models.CharField(max_length=500,default="Services")
+
 
 
 
@@ -64,6 +65,16 @@ class Carriers(models.Model):
     lastsalary=models.IntegerField()
     fileupload=models.FileField(upload_to='resume/pdfs/')
     profile_pic=models.ImageField(upload_to='Images/img/')
+
+    def __str__(self):
+        return self.name
+
+class Franchisee(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.CharField(max_length=200)
+    mobileno = models.CharField(max_length=15)
+    location=models.CharField(max_length=100)
+    subject = models.CharField(max_length=500)
 
     def __str__(self):
         return self.name

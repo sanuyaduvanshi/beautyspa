@@ -48,7 +48,7 @@
       <td class="text-center">{{app.time}}</td>
       <td class="text-center">{{app.services}}</td>
       <td class="text-center"> <a class="btn btn-sm btn-danger"  href="appointment/deleted/{{app.id}}">Delete</a>
-      <a class="btn btn-sm btn-success"  href="#" data-toggle="modal" data-target="#myModal">Confirm</a></td>
+      <a class="btn btn-sm btn-success" onclick="confirm_{{app.id}}()" href="#" data-toggle="modal" data-target="#myModal">Confirm</a></td>
 </tr>
       {% endfor %}
 
@@ -82,33 +82,15 @@
       </th>
     </tr>
 
-    
 
 
 
-        <!--  pagination starts-->
-    
-    <!-- {% if appointment.has_other_pages %}
-    
-    <ul class="pagination">
-      {% if appointment.has_previous %}
-      <li><a href="?page={{ appointment.previous_page_number }}" >&laquo; PREV </a></li>
-      {% endif %}
-      {% if appointment.has_next %}
-      <li><a href="?page={{ appointment.next_page_number }}" > NEXT &raquo;</a></li>
-     {% endif %}
-    </ul>
-    </div>
-    {% endif %} -->
-    
-    <!-- pagination ends -->
-    
 
-      
+
 
   </tfoot>
 
-  
+
 
 </table>
 
@@ -118,9 +100,9 @@
                 <li><a href="?page={{ appointment.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
                 {% endif %}
                 {% if appointment.has_next %}
-               
+
                 <li><a href="?page={{ appointment.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
-            
+
                {% endif %}
         </ul>
 </nav>
@@ -138,9 +120,10 @@
   <div class="modal-body">
     <form id="update_form" method="POST">
         {% csrf_token %}
+       
         <div class="form-group">
-            <label for="name" class="label">Confirm Appointment</label>
-          <textarea name="name" class="form-control" rows="8" cols="80"></textarea> 
+            <label for="comments" class="label">Confirm Appointment</label>
+          <textarea name="comments" class="form-control" rows="8" cols="80"></textarea>
         </div>
 
         <div class="form-group">
@@ -156,7 +139,21 @@
 
 </div></div></div>
 
+<script>
+
+{% for app in appointment %}
+
+function confirm_{{app.id}}()
+{
+    console.log("congitm appntment");
+
+    $('#update_form').attr('action','confirm/{{app.id}}');
+
+}
+
+{% endfor %}
+
+
+</script>
+
 {%endblock%}
-
-
-

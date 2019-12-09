@@ -24,7 +24,9 @@ urlpatterns = [
     path('footrefl/',views.footrefl,name='footrefl'),
     path('memberplan',views.memberplan,name='memberplan'),
     path('eservice',views.eservice,name='eservice'),
+    path('franchisee',views.franchisee,name='franchisee'),
+
+
+
 
 ]
-
-

@@ -4,13 +4,14 @@ from beautyapp.models import Appointment
 from django.contrib import messages
 from beautyapp.models import Services
 from beautyapp.models import Gift
+from .models import Addprice
 from beautyapp.models import Carriers
 from .models import Addstaff
 from .models import Guest
+
 from django.contrib.auth.decorators import login_required
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 
@@ -68,8 +69,21 @@ def gifts(request):
     return render(request,'dashboard/gifts.html',{'gifts':gifts})
 
 def appointment(request):
-    appointment = Appointment.objects.all()
-    return render(request,'dashboard/appointment.html',{'appointment':appointment} )
+    appointment = Appointment.objects.order_by('-date')
+
+    paginator = Paginator(appointment, 5)  # 10 appointments in each page
+    page = request.GET.get('page')
+    try:
+        appointment_list = paginator.page(page)
+    except PageNotAnInteger:
+            # If page is not an integer deliver the first page
+        appointment_list = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        appointment_list = paginator.page(paginator.num_pages)
+
+
+    return render(request,'dashboard/appointment.html',{'appointment':appointment_list,'page': page} )
 # def edit(request, id):
 #     city = Citys.objects.get(id=id)
 #     context = {'city': city}
@@ -81,19 +95,30 @@ def update(request, id):
     city.save()
     return redirect(addcity)
 
+def clientupdate(request, id):
+    g  = Guest.objects.get(id=id)
+    # g.time_in = request.POST['time_in']
+    g.time_out= request.POST['time_out']
+    g.total_time=request.POST['total_time']
+    g.comments = request.POST['comments']
+    g.save()
+    return redirect(dashboard)
+
 def modify(request, id):
     service = Services.objects.get(id=id)
     service.name = request.POST['name']
+
     service.save()
     return redirect(addservice)
 
 
 def updates(request, id):
     staff = Addstaff.objects.get(id=id)
-    service = Services.objects.get(id=id)
     staff.name = request.POST['name']
     staff.mobileno = request.POST['mobileno']
-    service.name = request.POST['service']
+    s = request.POST['service']
+    service = Services.objects.get(id=s)
+
     service.save()
     staff.services = service
 
@@ -141,6 +166,19 @@ def addservice(request):
         'service':Services.objects.all()
         }
     return render(request,'dashboard/addservices.html',context_data)
+
+
+def price(request):
+    if request.method == 'POST':
+        price = request.POST['price']
+        p = Price(price=price)
+        p.save()
+        return redirect(price)
+    else:
+        context_data = {
+        'p':Addprice.objects.all()
+        }
+    return render(request,'dashboard/price.html',context_data)
 
 
 def addstaff(request):
@@ -192,3 +230,11 @@ def admin_login(request):
             return redirect(admin_login)
     else:
         return render(request,'dashboard/admin_login.html')
+
+
+
+def franch(request):
+    f=Carriers.objects.all()
+
+
+    return render(request,'dashboard/franch.html', {'f':f})

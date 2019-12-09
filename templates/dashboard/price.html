@@ -1,14 +1,14 @@
 {% extends 'dashboard/index.html' %}
 {% load static %}
 {% block addcity %}
-<div class="col-lg-12 text-center "><h3>Add Services <hr class="hr1">
+<div class="col-lg-12 text-center "><h3>Add Price <hr class="hr1">
 </h3></div><br>
 <div class="container">
-<form class="form-inline" id="add_form"  action="{% url 'addservice' %}" method="POST">
+<form class="form-inline" id="add_form"  action="{% url 'addprice' %}" method="POST">
     {% csrf_token %}
     <div class="form-group">
-        <label for="city" class="label">Service Name</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        <input type="text" name="name" class="form-control"  required="required"/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        <label for="addprice" class="label">Price</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        <input type="text" name="price" class="form-control"  required="required"/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 </div>
 
 
@@ -21,7 +21,7 @@
 <table class="table table-bordered">
     <thead class="alert-warning">
         <tr>
-            <th class="text-center">NAME</th>
+            <th class="text-center">Price</th>
 
 
             <th class="text-center">Action</th>
@@ -30,7 +30,7 @@
     <tbody>
       {% for serviced in service %}
         <tr>
-            <td class="text-center">{{ serviced.name }}</td>
+            <td class="text-center">{{ serviced.price }}</td>
 
 
 
@@ -69,14 +69,14 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"></button>
-          <h4 class="modal-title text-center">EDIT SERVICES</h4>
+          <h4 class="modal-title text-center">EDIT PRICES</h4>
         </div>
         <div class="modal-body">
           <form id="modify_form" method="POST">
               {% csrf_token %}
               <div class="form-group">
-                  <label for="name" class="label">Change Service</label>
-                  <input id="service_name" type="text" name="name" class="form-control"  required="required"/>
+                  <label for="name" class="label">Change Price</label>
+                  <input id="price_name" type="text" name="price" class="form-control"  required="required"/>
               </div>
 
 

@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.conf import settings
+from .models import Franchisee
 # from twilio.rest import Client
 
 
@@ -188,3 +189,19 @@ def register(request):
         return redirect(home)
     else:
         return render(request,'beautyapp/register.html')
+
+def franchisee(request):
+    if request.method == 'POST':
+        name=request.POST['name']
+        email=request.POST['email']
+        mobileno=request.POST['mobileno']
+        location=request.POST['location']
+        subject=request.POST['subject']
+        french=Franchisee(name=name,email=email,mobileno=mobileno,location=location,subject=subject)
+        french.save()
+
+
+        return redirect(home)
+
+    else:
+        return render(request,'beautyapp/franchisee.html')

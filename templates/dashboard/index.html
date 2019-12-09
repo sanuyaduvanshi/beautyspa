@@ -19,9 +19,9 @@
   <!-- Custom styles for this template-->
   <link href="{% static 'dashboard/css/sb-admin-2.min.css'%}" rel="stylesheet">
   <link href="{% static 'dashboard/css/dashboard.css'%}" rel="stylesheet">
-<style>
+  <style>
 
-</style>
+  </style>
 
 </head>
 
@@ -31,14 +31,14 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background-image:url({% static 'beautyapp/images/sll1.jpg' %})" >
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background-image:url({% static 'beautyapp/images/sll1.jpg' %})">
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html" style="padding-top:50px">
         <div class="sidebar-brand-icon rotate-n-15">
           <img src="{% static 'beautyapp/images/budhha1.png'%}" style="width:64px; transform: rotate(18deg);">
         </div>
-        <div class="sidebar-brand-text mx-3">The Elixir  Spa</div>
+        <div class="sidebar-brand-text mx-3">The Elixir Spa</div>
       </a>
 
       <!-- Divider -->
@@ -55,23 +55,13 @@
       <hr class="sidebar-divider">
 
       <li class="nav-item text-center">
-        <a  href="{%url 'guest'%}">Guest</a>
+        <a href="{%url 'guest'%}">Client</a>
 
       </li>
       <hr class="sidebar-divider">
 
-
       <li class="nav-item text-center">
-        <a  href="{%url 'addcity'%}">Add City</a>
-
-      </li>
-
-      <hr class="sidebar-divider">
-
-
-
-      <li class="nav-item text-center">
-              <a  href="{%url 'adminappointment'%}">Appointment</a>
+        <a href="{%url 'gifts'%}">Gift</a>
 
       </li>
 
@@ -79,7 +69,14 @@
 
 
       <li class="nav-item text-center">
-              <a  href="{%url 'addservice'%}">Add Service</a>
+        <a href="{%url 'carriers'%}">Carriers</a>
+
+      </li>
+
+      <hr class="sidebar-divider">
+
+      <li class="nav-item text-center">
+        <a href="{%url 'adminappointment'%}">Appointment</a>
 
       </li>
 
@@ -87,29 +84,38 @@
 
 
       <li class="nav-item text-center">
-              <a  href="{%url 'gifts'%}">Gift</a>
+        <a href="{%url  'franch' %}">Franchisee</a>
 
       </li>
 
+
+      <hr class="sidebar-divider">
+
+      <li class="nav-item text-center">
+        <a href="{%url 'addcity'%}">Add City</a>
+
+      </li>
+
+      <hr class="sidebar-divider">
+
+
+
+      <li class="nav-item text-center">
+        <a href="{%url 'addstaff'%}">Add Staff</a>
+
+      </li>
       <hr class="sidebar-divider">
 
 
       <li class="nav-item text-center">
-              <a  href="{%url 'carriers'%}">Carriers</a>
+        <a href="">Add Duration</a>
 
       </li>
-
       <hr class="sidebar-divider">
-
-
       <li class="nav-item text-center">
-              <a  href="{%url 'addstaff'%}">Add Staff</a>
+        <a href="{%url 'price'%}">Add Price</a>
 
       </li>
-      <hr class="sidebar-divider">
-
-
-
       <hr class="sidebar-divider">
 
 
@@ -121,7 +127,7 @@
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column" >
+    <div id="content-wrapper" class="d-flex flex-column">
 
       <!-- Main Content -->
       <div id="content" style="background-image:url({% static 'beautyapp/images/dash.jpg' %});border:2px solid black">
@@ -244,15 +250,15 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-      {% block addcity  %}{% endblock %}
-      {% block guest  %}{% endblock %}
+        {% block addcity  %}{% endblock %}
+        {% block guest  %}{% endblock %}
 
 
       </div>
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="sticky-footer "  style="background-image:url({% static 'beautyapp/images/lg1.jpeg' %})">
+      <footer class="sticky-footer " style="background-image:url({% static 'beautyapp/images/lg1.jpeg' %})">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
             <span><a>Copyright © 2019 Div International Technology Services</a></span>

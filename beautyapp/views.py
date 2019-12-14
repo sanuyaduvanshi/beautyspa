@@ -198,6 +198,7 @@ def franchisee(request):
         location=request.POST['location']
         subject=request.POST['subject']
         french=Franchisee(name=name,email=email,mobileno=mobileno,location=location,subject=subject)
+        messages.success(request,' ')
         french.save()
 
 

@@ -10,7 +10,7 @@ urlpatterns = [
     path('gifts/deletgift/<int:id>',views.deletgift,name='deletgift'),
     path('carriers/jobdelete/<int:id>',views.jobdelete,name='jobdelete'),
 
-    path('price/',views.price,name='price'),
+    # path('price/',views.price,name='price'),
 
     path('carriers/',views.carriers,name='carriers'),
     path('addcity/update/<int:id>',views.update,name='update'),
@@ -28,6 +28,7 @@ urlpatterns = [
     path('guest/gdel/<int:id>',views.gdel,name='gdel'),
     path('franch/',views.franch,name='franch'),
 
+    path('franch/deletefranch/<int:id>',views.deletefranch,name='deletefranch'),
 
 
 

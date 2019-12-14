@@ -5,10 +5,10 @@ from beautyapp.models import Appointment
 from django.contrib import messages
 from beautyapp.models import Services
 from beautyapp.models import Gift
-from .models import Addprice
 from beautyapp.models import Carriers
 from .models import Addstaff
 from .models import Guest
+from beautyapp.models import Franchisee
 
 from django.contrib.auth.decorators import login_required
 
@@ -184,17 +184,17 @@ def addservice(request):
     return render(request,'dashboard/addservices.html',context_data)
 
 
-def price(request):
-    if request.method == 'POST':
-        price = request.POST['price']
-        p = Price(price=price)
-        p.save()
-        return redirect(price)
-    else:
-        context_data = {
-        'p':Addprice.objects.all()
-        }
-    return render(request,'dashboard/price.html',context_data)
+# def price(request):
+#     if request.method == 'POST':
+#         price = request.POST['price']
+#         p = Price(price=price)
+#         p.save()
+#         return redirect(price)
+#     else:
+#         context_data = {
+#         'p':Addprice.objects.all()
+#         }
+#     return render(request,'dashboard/price.html',context_data)
 
 
 def addstaff(request):
@@ -250,7 +250,12 @@ def admin_login(request):
 
 
 def franch(request):
-    f=Carriers.objects.all()
-
+    f=Franchisee.objects.all()
+    
 
     return render(request,'dashboard/franch.html', {'f':f})
+
+def deletefranch(request, id):
+    f = Franchisee.objects.get(id=id)
+    f.delete()
+    return redirect(franch)

@@ -380,6 +380,8 @@ hr {
 h3{
   color:#d1d3e2;
   font-weight:900;
+  text-transform: uppercase;
+  letter-spacing: 4px;
 }
 .small, small {
   font-size: 80%;
@@ -6250,7 +6252,7 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 
 }
 .alert-warning{
-  background-color: black;
+  background-color: #f3a20e;
   color: #f8f9fc;
 
 }

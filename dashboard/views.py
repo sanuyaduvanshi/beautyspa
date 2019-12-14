@@ -251,7 +251,7 @@ def admin_login(request):
 
 def franch(request):
     f=Franchisee.objects.all()
-    
+
 
     return render(request,'dashboard/franch.html', {'f':f})
 
@@ -259,3 +259,7 @@ def deletefranch(request, id):
     f = Franchisee.objects.get(id=id)
     f.delete()
     return redirect(franch)
+
+def report():
+    guests = Guest.objects.all()
+    return render(request,'dashboard/report.html',{'guests':guests})

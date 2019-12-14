@@ -1,5 +1,6 @@
 from django.db import models
 from beautyapp.models import Services
+from beautyapp.models import Citys
 
 # Create your models here.
 
@@ -8,6 +9,7 @@ from beautyapp.models import Services
 class Addstaff(models.Model):
     name = models.CharField(max_length=250)
     mobileno=models.CharField(max_length=12)
+    city = models.ForeignKey(Citys, on_delete=models.CASCADE,null=True)
     services = models.ForeignKey(Services, on_delete=models.CASCADE, null=True, blank=True)
 
 
@@ -30,6 +32,7 @@ class Addduration(models.Model):
 class Guest(models.Model):
     gname = models.CharField(max_length=50)
     mobile = models.CharField(max_length=100)
+    city = models.ForeignKey(Citys, on_delete=models.CASCADE,null=True)
     services = models.ForeignKey(Services, on_delete=models.CASCADE, null=True, blank=True)
     treatment_by = models.ForeignKey(Addstaff, on_delete=models.CASCADE, null=True, blank=True)
     duration = models.CharField(max_length=50)

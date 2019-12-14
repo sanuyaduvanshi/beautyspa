@@ -1,5 +1,9 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth.models import User,auth
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
+from django.contrib.auth.models import auth
+
 from .models import Register
 from .models import Gift
 from .models import Citys
@@ -10,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.conf import settings
-from .models import Franchisee
+from .models import Franchisee,Genre
 # from twilio.rest import Client
 
 
@@ -206,3 +210,8 @@ def franchisee(request):
 
     else:
         return render(request,'beautyapp/franchisee.html')
+
+
+
+def show_genres(request):
+    return render(request, "beautyapp/test.html", {'genres': Genre.objects.all()})

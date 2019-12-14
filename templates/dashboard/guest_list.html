@@ -111,6 +111,8 @@
 </div>
 <div class="container">
 
+
+
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
@@ -131,7 +133,7 @@
 
               <div class="form-group">
                   <label for="name" class="label">Time_Out</label>
-                  <input id="timeout" type="text" name="time_out"  class="form-control" required="required"/>
+                  <input id="timeout" type="time" name="time_out"  class="form-control" required="required"/>
               </div>
 
               <div class="form-group">
@@ -139,8 +141,8 @@
                   <input id="totaltime" type="text" name="total_time"  class="form-control" required="required"/>
               </div>
 
-              <div id="comments" class="form-group" style="display: none;">
-                      <label for="comments" class="labels">Comments(Why Delay)</label>
+              <div id="comments" class="form-group">
+                      <label for="comments" class="label">Comments(Why Delay)</label>
                       <textarea name="comments" class="form-control"  required="required"> </textarea>
               </div>
 
@@ -158,6 +160,7 @@
     </div>
   </div>
 
+  <!-- end of modal -->
 </div>
 <script>
   {% for g in guests %}
@@ -169,7 +172,23 @@
     $("#timeout").val("{{ g.time_out }}")
     $("#totaltime").val("{{ g.total_time }}")
     $("#comments").val("{{ g.commentS }}")
-    $("#update_form").attr("action","updateguest/{{ g.id}}")
+    $("#update_form").attr("action","clientupdate/{{ g.id}}")
+
+    let d  = {{g.duration}}
+    let tt = {{g.total_time}}
+
+    if (eval(tt-d) <= 0)
+   {
+       $("#comments").hide();
+       // console.log($("#mymodel2"))
+       // $('body').removeClass('modal-open');
+       // $('.modal-backdrop').remove();
+       // console.log("triggered");
+   }else
+   {
+       $("#comments").show();
+   }
+
   }
 
 

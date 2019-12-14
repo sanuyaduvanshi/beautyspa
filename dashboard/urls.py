@@ -6,7 +6,9 @@ urlpatterns = [
     path('addcity/',views.addcity,name='addcity'),
     path('gifts/',views.gifts,name='gifts'),
     path('addstaff/',views.addstaff,name='addstaff'),
-    path('addstaff/updates/<int:id>',views.updates,name='updates'),
+    path('addstaff/delete_staff/<int:id>',views.delete_staff,name='delete_staff'),
+    path('addstaff/update_staff/<int:id>',views.update_staff,name='updates'),
+
     path('gifts/deletgift/<int:id>',views.deletgift,name='deletgift'),
     path('carriers/jobdelete/<int:id>',views.jobdelete,name='jobdelete'),
 
@@ -14,7 +16,8 @@ urlpatterns = [
 
     path('carriers/',views.carriers,name='carriers'),
     path('addcity/update/<int:id>',views.update,name='update'),
-    path('guest/clientupdate/',views.clientupdate,name="updateguest"),
+    path('clientupdate/<int:id>',views.clientupdate,name="updateguest"),
+
     path('appointment',views.appointment,name='adminappointment'),
     path('confirm/<int:id>',views.confirm_appointment,name='confirm_appointment'),
     path('addcity/delete/<int:id>',views.delete,name='delete'),
@@ -29,7 +32,7 @@ urlpatterns = [
     path('franch/',views.franch,name='franch'),
 
     path('franch/deletefranch/<int:id>',views.deletefranch,name='deletefranch'),
-    path('report/',views.html_to_pdf_view,name='report'),
+    # path('report/',views.html_to_pdf_view,name='report'),
 
 
 

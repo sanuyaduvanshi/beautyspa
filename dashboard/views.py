@@ -16,18 +16,19 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from twilio.rest import Client
 
-# for weasyprint
-from django.core.files.storage import FileSystemStorage
-from django.http import HttpResponse
-from django.template.loader import render_to_string
+# # for weasyprint
+# from django.core.files.storage import FileSystemStorage
+# from django.http import HttpResponse
+# from django.template.loader import render_to_string
 
-from weasyprint import HTML
+# from weasyprint import HTML
 
 
 # Create your views here.
-# @login_required(login_url='/dashboard/login')
+@login_required(login_url='/dashboard/admin_login/')
 def dashboard(request):
-        guests = Guest.objects.all()
+        city = request.user.city
+        guests = Guest.objects.filter(city=city)
         return render(request,'dashboard/guest_list.html',{'guests':guests})
 
 def guest(request):
@@ -43,18 +44,23 @@ def guest(request):
         price = request.POST['price']
         paym = request.POST['paym']
 
+        city=request.POST['city']
+        city = Citys.objects.get(id=city)
+
         print(service)
         s = Services.objects.get(pk=service)
         a = Addstaff.objects.get(pk=serviceby)
 
 
-        new_guest = Guest(gname=name,mobile=mobileno,services=s,treatment_by=a,duration=duration,time_in=timein,time_out=timeout,total_time=totaltime,price=price,payment=paym)
+        new_guest = Guest(gname=name,mobile=mobileno,city=city,services=s,treatment_by=a,duration=duration,time_in=timein,time_out=timeout,total_time=totaltime,price=price,payment=paym)
         new_guest.save()
         messages.success(request,' ')
         return redirect(guest)
     services = Services.objects.all()
-    staffs = Addstaff.objects.all()
-    return render(request,'dashboard/guest.html',{'services':services,'staffs':staffs})
+    staff_city = request.user.city
+    staffs = Addstaff.objects.filter(city=staff_city)
+    city = Citys.objects.all()
+    return render(request,'dashboard/guest.html',{'services':services,'staffs':staffs,'city':city})
 
 
 # def guest_list(request):
@@ -77,7 +83,11 @@ def gifts(request):
     return render(request,'dashboard/gifts.html',{'gifts':gifts})
 
 def appointment(request):
-    appointment = Appointment.objects.order_by('-date')
+    city = request.user.city
+    if city is None:
+        return redirect(dashboard)
+    print(city,' ----- ',city.name)
+    appointment = Appointment.objects.filter(city=city).order_by('-date')
 
     paginator = Paginator(appointment, 5)  # 10 appointments in each page
     page = request.GET.get('page')
@@ -133,18 +143,7 @@ def modify(request, id):
     return redirect(addservice)
 
 
-def updates(request, id):
-    staff = Addstaff.objects.get(id=id)
-    staff.name = request.POST['name']
-    staff.mobileno = request.POST['mobileno']
-    s = request.POST['service']
-    service = Services.objects.get(id=s)
 
-    service.save()
-    staff.services = service
-
-    staff.save()
-    return redirect(addstaff)
 
 
 def deletes(request,id):
@@ -207,18 +206,41 @@ def addstaff(request):
         name = request.POST['name']
         mobileno = request.POST['mobileno']
         services=request.POST['service']
+        city=request.POST['city']
+        city = Citys.objects.get(id=city)
         se=Services.objects.get(id=services)
-        staff=Addstaff(name=name,mobileno=mobileno,services=se)
+        staff=Addstaff(name=name,mobileno=mobileno,city=city,services=se)
         staff.save()
         return redirect(addstaff)
     else:
+        staff_city = request.user.city
         context_data = {
         'service':Services.objects.all(),
-        'staff':Addstaff.objects.all()
+        'staff':Addstaff.objects.filter(city=staff_city),
+        'city':Citys.objects.all()
         }
     return render(request,'dashboard/addstaff.html',context_data)
 
+def delete_staff(request,id):
+    staff = Addstaff.objects.get(id=id)
+    staff.delete()
 
+    return redirect(addstaff)
+
+def update_staff(request, id):
+    if request.method == 'POST':
+        staff = Addstaff.objects.get(id=id)
+        staff.name = request.POST['name']
+        staff.mobileno = request.POST['mobileno']
+        s = request.POST.get('service')
+        service = Services.objects.get(id=s)
+
+        service.save()
+        staff.services = service
+
+        staff.save()
+        return redirect(addstaff)
+    return redirect(addstaff)
 
 def addcity(request):
     if request.method == 'POST':
@@ -253,11 +275,8 @@ def admin_login(request):
         return render(request,'dashboard/admin_login.html')
 
 
-
 def franch(request):
     f=Franchisee.objects.all()
-
-
     return render(request,'dashboard/franch.html', {'f':f})
 
 def deletefranch(request, id):
@@ -270,17 +289,17 @@ def report(request):
     return render(request,'dashboard/report.html',{'guests':guests})
 
 
-def html_to_pdf_view(request):
-    guests = Guest.objects.all()
-    html_string = render_to_string('dashboard/report.html',{'guests':guests})
+# def html_to_pdf_view(request):
+#     guests = Guest.objects.all()
+#     html_string = render_to_string('dashboard/report.html',{'guests':guests})
 
-    html = HTML(string=html_string)
-    html.write_pdf(target='/tmp/mypdf.pdf');
+#     html = HTML(string=html_string)
+#     html.write_pdf(target='/tmp/mypdf.pdf');
 
-    fs = FileSystemStorage('/tmp')
-    with fs.open('mypdf.pdf') as pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
-        return response
+#     fs = FileSystemStorage('/tmp')
+#     with fs.open('mypdf.pdf') as pdf:
+#         response = HttpResponse(pdf, content_type='application/pdf')
+#         response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+#         return response
 
-    return response
+#     return response

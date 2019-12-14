@@ -1,6 +1,10 @@
 from django.db import models
+from mptt.models import MPTTModel, TreeForeignKey
 
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
+
+
 
 class Register(models.Model):
     first_name = models.CharField(max_length=50)
@@ -19,6 +23,9 @@ class Citys(models.Model):
         def __str__(self):
             return self.name
 
+class User(AbstractUser):
+    city = models.ForeignKey(Citys, on_delete=models.CASCADE,null=True)
+    
 class Services(models.Model):
         name=models.CharField(max_length=500,default="Services")
 
@@ -47,7 +54,7 @@ class Appointment(models.Model):
     name=models.CharField(max_length=50)
     mobileno = models.IntegerField()
     email=models.CharField(max_length=50, default="null")
-    city = models.ForeignKey(Citys, on_delete=models.CASCADE)
+    city = models.ForeignKey(Citys, on_delete=models.CASCADE,null=True)
     date=models.DateField()
     time=models.TimeField()
     services = models.ForeignKey(Services, on_delete=models.CASCADE)
@@ -78,3 +85,13 @@ class Franchisee(models.Model):
 
     def __str__(self):
         return self.name
+
+
+
+
+class Genre(MPTTModel):
+    name = models.CharField(max_length=50, unique=True)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+
+    class MPTTMeta:
+        order_insertion_by = ['name']

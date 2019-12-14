@@ -17,6 +17,16 @@
     </div>
 
     <div class="form-group">
+        <label for="city" class="label">City</label>
+    <select id="city" name="city" class="form-control" required>
+        <option selected disabled> Select City..<option>
+          {% for cities in city %}
+          <option value="{{cities.id}}">{{ cities.name }}</option>
+          {%endfor%}
+      </select>
+    </div>
+
+    <div class="form-group">
         <select name="service" class="form-control"  style="width:200px"required >
           <option selected disabled>Specialist In</option>
               {% for serviced in service %}
@@ -37,6 +47,7 @@
           <tr>
               <th>NAME</th>
               <th>Mobile_No</th>
+              <th>city</th>
               <th>Service</th>
               <th class="text-center">Action</th>
 
@@ -48,11 +59,12 @@
           <tr>
               <td>{{ staf.name }}</td>
               <td>{{ staf.mobileno }}</td>
+              <td>{{ staf.city }}</td>
               <td>{{ staf.services }}</td>
 
               <input type="hidden" name="{{ staf.id }}" value="">
               <td><center><a class="btn btn-sm btn-warning" onclick="edit_{{ staf.id }}()" data-toggle="modal" data-target="#myModal">
-               Edit</a> <a class="btn btn-sm btn-danger"   href="delete/{{ staf.id }}">
+               Edit</a> <a class="btn btn-sm btn-danger"   href="delete_staff/{{ staf.id }}">
                    Delete</a></center></td>
           </tr>
           {% endfor %}
@@ -125,7 +137,7 @@
     $("#service").val("{{ staf.services }}")
 
 
-    $("#update_form").attr("action","updates/{{ staf.id}}")
+    $("#update_form").attr("action","update_staff/{{ staf.id}}")
   }
 
 

@@ -29,6 +29,7 @@ urlpatterns = [
     path('franch/',views.franch,name='franch'),
 
     path('franch/deletefranch/<int:id>',views.deletefranch,name='deletefranch'),
+    path('report/',views.html_to_pdf_view,name='report'),
 
 
 

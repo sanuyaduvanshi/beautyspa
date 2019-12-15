@@ -36,6 +36,7 @@ def dashboard(request):
 
 def guest(request):
     if request.method == 'POST':
+        date = request.POST['date']
         name = request.POST['name']
         mobileno = request.POST['mobileno']
         service = request.POST['service']
@@ -55,7 +56,7 @@ def guest(request):
         a = Addstaff.objects.get(pk=serviceby)
 
 
-        new_guest = Guest(gname=name,mobile=mobileno,city=city,services=s,treatment_by=a,duration=duration,time_in=timein,time_out=timeout,total_time=totaltime,price=price,payment=paym)
+        new_guest = Guest(date=date,gname=name,mobile=mobileno,city=city,services=s,treatment_by=a,duration=duration,time_in=timein,time_out=timeout,total_time=totaltime,price=price,payment=paym)
         new_guest.save()
         messages.success(request,' ')
         return redirect(guest)

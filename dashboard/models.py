@@ -1,6 +1,7 @@
 from django.db import models
 from beautyapp.models import Services
 from beautyapp.models import Citys
+import datetime
 
 # Create your models here.
 
@@ -30,6 +31,7 @@ class Addduration(models.Model):
 
 
 class Guest(models.Model):
+    date=models.DateField(default=datetime.datetime.now())
     gname = models.CharField(max_length=50)
     mobile = models.CharField(max_length=100)
     city = models.ForeignKey(Citys, on_delete=models.CASCADE,null=True)

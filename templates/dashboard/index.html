@@ -34,7 +34,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background-image:url({% static 'beautyapp/images/sll1.jpg' %})">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html" style="padding-top:50px">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center"  href="{%url 'dashboard' %}" style="padding-top:50px">
         <div class="sidebar-brand-icon rotate-n-15">
           <img src="{% static 'beautyapp/images/budhha1.png'%}" style="width:64px; transform: rotate(18deg);">
         </div>
@@ -58,6 +58,8 @@
         <a href="{%url 'guest'%}">Client</a>
 
       </li>
+
+      {% if user.is_superuser %}
       <hr class="sidebar-divider">
 
       <li class="nav-item text-center">
@@ -72,6 +74,7 @@
         <a href="{%url 'carriers'%}">Carriers</a>
 
       </li>
+      {% endif %}
 
       <hr class="sidebar-divider">
 
@@ -79,6 +82,8 @@
         <a href="{%url 'adminappointment'%}">Appointment</a>
 
       </li>
+
+      {% if user.is_superuser %}
 
       <hr class="sidebar-divider">
 
@@ -104,6 +109,7 @@
         <a href="{%url 'addstaff'%}">Add Staff</a>
 
       </li>
+      {% endif %}
       <hr class="sidebar-divider">
 
     </ul>
@@ -213,7 +219,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user}}</span>
                 <img class="img-profile rounded-circle" src="{%static 'beautyapp/images/mens.jpeg'%}">
               </a>
               <!-- Dropdown - User Information -->

@@ -27,8 +27,11 @@ from twilio.rest import Client
 # Create your views here.
 @login_required(login_url='/dashboard/admin_login/')
 def dashboard(request):
-        city = request.user.city
-        guests = Guest.objects.filter(city=city)
+        if request.user.is_superuser:
+            guests = Guest.objects.all()
+        else:
+            city = request.user.city
+            guests = Guest.objects.filter(city=city)
         return render(request,'dashboard/guest_list.html',{'guests':guests})
 
 def guest(request):
@@ -57,8 +60,13 @@ def guest(request):
         messages.success(request,' ')
         return redirect(guest)
     services = Services.objects.all()
-    staff_city = request.user.city
-    staffs = Addstaff.objects.filter(city=staff_city)
+
+    if request.user.is_superuser:
+        staffs = Addstaff.objects.all()
+    else:
+        staff_city = request.user.city
+        staffs = Addstaff.objects.filter(city=staff_city)
+
     city = Citys.objects.all()
     return render(request,'dashboard/guest.html',{'services':services,'staffs':staffs,'city':city})
 
@@ -83,11 +91,14 @@ def gifts(request):
     return render(request,'dashboard/gifts.html',{'gifts':gifts})
 
 def appointment(request):
-    city = request.user.city
-    if city is None:
-        return redirect(dashboard)
-    print(city,' ----- ',city.name)
-    appointment = Appointment.objects.filter(city=city).order_by('-date')
+    if request.user.is_superuser:
+        appointment = Appointment.objects.all()
+    else:
+        city = request.user.city
+        if city is None:
+            return redirect(dashboard)
+        print(city,' ----- ',city.name)
+        appointment = Appointment.objects.filter(city=city).order_by('-date')
 
     paginator = Paginator(appointment, 5)  # 10 appointments in each page
     page = request.GET.get('page')
@@ -213,10 +224,15 @@ def addstaff(request):
         staff.save()
         return redirect(addstaff)
     else:
-        staff_city = request.user.city
+        if request.user.is_superuser:
+            staff = Addstaff.objects.all()
+        else:
+            staff_city = request.user.city
+            staff = Addstaff.objects.filter(city=staff_city)
+
         context_data = {
         'service':Services.objects.all(),
-        'staff':Addstaff.objects.filter(city=staff_city),
+        'staff':staff,
         'city':Citys.objects.all()
         }
     return render(request,'dashboard/addstaff.html',context_data)

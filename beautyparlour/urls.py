@@ -29,6 +29,7 @@ urlpatterns = [
     path('',views.home,name="home"),
     path('beautyapp/', include('beautyapp.urls')),
     path('dashboard/', include('dashboard.urls')),
+    path('table/',views.table),
 
 ]
 

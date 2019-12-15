@@ -18,7 +18,15 @@ from .models import Franchisee,Genre
 # from twilio.rest import Client
 
 
+def table(request):
 
+    data = { 'FOOT REFLEXOLOGY':[0,'30/60','599/999',[]], 'FULL LEG MASSAGE':[0,'30/60','599/999',[]] , 'HEAD SHOULDER & NECK':[0,'30/60','599/999',[]], 'FULL BODY MASSAGE': [1,'60/90','',[ ['AROMA THERAPY','1200 / 1900'],['SWEDISH MASSAGE','1500 / 2200'],\
+        ['BALINESE MASSAGE','1500 / 2200'],['DEEP TISSUE MASSAGE','1800 / 2500'],['AYURVEDIC BODY MASSAGE','1500 / 2200'],['POTLI MASSAGE','2000 / 2700'],['ABHAYANGAM MASSAGE','1800 / 2500'],['LOMI LOMI MASSAGE','1800 / 2500'],['THAI MASSAGE','1800 / 2500'],['COUPLE MASSAGE','2600 / 3600'],]],\
+        'BLEACHING':[1,'-','',[ ['FACE & NECK','350'],['D TAN','450'] ]], 'WAXING (ONLY FOR LADIES)':[1,'-','',[['FULL ARMS','300'], ]] \
+        }
+
+    context = {'data':data}
+    return render(request,'table.html',context)
 
 # Create your views here.
 def home(request):

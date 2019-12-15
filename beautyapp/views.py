@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.conf import settings
-from .models import Franchisee,Genre
+from .models import Franchisee
 # from twilio.rest import Client
 
 
@@ -221,5 +221,5 @@ def franchisee(request):
 
 
 
-def show_genres(request):
-    return render(request, "beautyapp/test.html", {'genres': Genre.objects.all()})
+# def show_genres(request):
+#     return render(request, "beautyapp/test.html", {'genres': Genre.objects.all()})
